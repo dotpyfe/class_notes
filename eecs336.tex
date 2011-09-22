@@ -1,0 +1,199 @@
+\documentclass[a4paper]{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{ulem}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\ra}{$\rightarrow$}
+\begin{document}
+  \section{info}
+    Prof: Jason Hartline\\
+    Website: http://www.eecs.northwestern.edu/component/content/article/850.html\\
+    weekly homeworks (challenging D: )\\
+    
+  \section{9.20.11}
+    reading: ch 1\& 2\\
+    \subsection{example coursework, Algorithms for Fibonnaci Numbers}
+      "0,1,1,2,3,5,8,..."\\
+      \subsubsection{alg: Recursive Fib(k)}
+        if k$\le$1, return k\\
+        else\\
+        return fib(k-1)+fib(k-2)\\
+        E.g.\\
+        \begin{itemize}
+          \item[] fib(5)
+            \subitem fib(4)
+              \subsubitem fib(3)...
+              \subsubitem fib(2)...
+            \subitem fib(3)
+              \subsubitem fib(2)...
+              \subsubitem fib(1)
+        \end{itemize}
+        \subsubsection{runtime analysis}
+        \begin{itemize}
+          \item[] T(k) = run me with k
+          \item[] T(1) = 1
+          \item[] T(k) = T(k-1) + T(k-2) $\ge$ 2T(k-2) $\ge$ 2*2T(k-4) = $2^{\frac{k}{2}}$
+        \end{itemize}
+        \textbf{Conclusion:} runtime is exponential!\\
+        Q: how to improve?\\
+        \underline{idea:} remember redundant computation
+      \subsubsection{new alg}
+        arr = new int[k]\\
+        arr[0] = 0\\
+        arr[1] = 1\\
+        arr[2,..,k]=-1\\
+        fib-helper(k)\\
+        return\\
+        %\hline
+        fib-helper(k){\\
+        if arr[k] $\ge$ 0: {\\
+        return arr[k]}\\
+        else: return arr[k] = fib-helper(k-1) + fib-helper(k-2)\\
+        }
+      \subsubsection{runtime analysis II}
+        depth-first recursion\\
+        \begin{itemize}
+          \item[] size of table x cost of table entry = runtime
+          \item[] k x 1 = k
+        \end{itemize}
+        \textbf{Conclusion:} linear time! \textbf{MUCH} better than exponential time
+        \underline{new idea:} accumulator
+      \subsubsection{accumulator alg}
+        \begin{tabbing}
+          last[0] = 0, last[1] = 1\\
+          for \= i = 2..k\\
+          \> tmp = last[1]\\
+          \> last[1] += last[0]\\
+          \> last[0] = tmp
+        return last[1]
+        \end{tabbing}
+      \subsubsection{runtime analysis III}
+        runtime of k
+      \subsubsection{faster than k alg}
+        \underline{note:} a;g operates on last[] like vector-matrix multiplication\\
+        let z = [0 1], a = [[0 1] [1 1]]\\
+        last x a = [last[1] last[1]+last[0]]\\
+        \ra \\
+        z x A x A x A (k-2 A's)\\
+        return z[1]\\
+      \subsubsection{runtime analysis IV}
+        (((z x A) x A) x A) same as z x ($A^{k-2}$)\\
+        \underline{Exponentiation}\\
+        compute $A^{k}$\\
+        let k = k1 + k2\\
+        then $A^{k} = A^{k1} + {k2}$\\
+        let k1=k2, only have to compute 1!\\
+        factor: $A^{k} = (A^{k/2})^{2} x A^{k \% 2}$\\
+        alg known as 'repeated squaring'\\
+        if k = 1, return A\\
+        k1 = floor(k/2)\\
+        b = repeated square (a,k1)\\
+        if k odd, return b x b x A, else return b x b
+      \subsubsection{runtime analysis V}
+        T(k) = number of multiplies\\
+        T(1) = 0\\
+        T(k) = T(k/2) + 2 = T(k/4) + 2 + 2 = T(1) + 2 + 2 + ... + 2 = $2\log{k}$
+        \textbf{Conclusion:} logarithmic runtime\\
+        \underline{note:} finding subproblems is important part of 'divide and conquer'\\
+        \underline{note:} memorization is an important part of 'dynamic programming'
+  \section{9.22.11}
+    reading: ch 2\&3
+    \subsection{alg design and analysis}
+      'give rigorous matheamtical foundation for thinking about and solving
+      problems in cs and other fields'\\
+      \underline{goals}
+      \bi
+        \item quickly compute solutions to problems
+        \item understand the essence of the problem
+        \item identify general algortihm design and analysis approaches
+      \ei
+      \underline{three streps}
+      \be
+        \item problem modeling
+          \subitem abstract the problem to its essential details
+        \item algorithm design
+        \item algorithm analysis
+        \be
+          \item efficiency (runtime)
+          \item correctness
+          \item quality (sometimes)
+        \ee
+      \ee
+      \underline{Note:} design and analysis of good algorithms requires deep
+      understanding of problem
+    \subsection{computational tractability}
+      'is a problem solvable by a computer?'\\
+      what is a problem?
+      \bi
+        \item quantify instance by size
+        \item worst-case runtime
+        \item[\ra ] T(n) = worst-case runtime of instance of size n
+      \ei
+      Solvable:
+      \bi
+        \item large instances can be solved
+        \item if input gets constant factor bigger then runtime is at worst a constant factor longer
+        \item[\ra ] T(c*n)$\le$dT(n)
+        \item[\ra ] T(n) should be a polynomial
+        \item[Ex.] T(n) = $n^k$
+        \item[] T(cn) = $(cn)^k$
+        \item[] T(cn) = $c^kn^k$ = $dn^k$
+      \ei
+    \subsection{efficient vs brute force}
+      \bi
+        \item brute force: try all solutions, output best one
+        \item brute force tends to have exponential runtime (BAD)
+        \item efficient algs require exploiting structure of a problem
+      \ei
+    \subsection{main goals for alg design}
+      \be
+        \item show problem is tractible
+          \subitem exists efficiently, polynomial runtime
+        \item show problem is intractible
+          \subitem for all algs, runtime is super-polynomial
+      \ee
+    \subsection{big o notation}
+      \underline{Def:} T(n) = O(f(n)) if $\exists n_0,c \forall n=n_0 : T(n) \le cf(n)$\\
+      \underline{Notes:}
+      \bi
+        \item be succinct
+        \bi
+          \item O(n$^2$ + n)
+          \item O(5n)
+        \ei
+        \item be correct
+        \bi
+          \item if T(n) = O($n^2$)
+          \item O($n^3$)
+        \ei
+      \ei
+    \subsection{log and big-o}
+      \underline{Def:} $\log_bn = l \leftrightarrow b^l= n$
+      \bi
+        \item $\log_{10}n$ = number of digits
+        \item $\log_2n$ = number of bits
+      \ei
+    \subsection{common runtimes}
+      \bi
+        \item O($\log n$)
+        \item O(n)
+        \item O(n$\log n$)
+        \item O(n$^2$)
+        \item O(n$^k$)
+        \item O(c$^n$)
+        \item O(n!)
+      \ei
+    \subsection{lower bounds}
+      $\Omega$ notation\\
+      T(n) is $\Omega$ (f(n)) if $\exists n_0,c : \forall n > n_0 T(n) \le cf(n)$
+    \subsection{exact bounds}
+      T(n) is $\Theta$ (f(n)) if it is O(f(n)) and $\Omega$ {f(n))
+    \subsection{graphs}
+      'encode pairwise relationships'\\
+      G = (V,E)\\
+      V = {1,2,...,n} (nodes)\\
+      E = {(a,b),(c,d),...,(y,z)} (edges)\\
+\end{document}

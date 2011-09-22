@@ -1,0 +1,245 @@
+\documentclass[a4paper]{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{ulem}
+\newcommand{\ra}{$\rightarrow$}
+\newcommand{\fa}{$\forall$}
+\newcommand{\te}{$\exists$}
+\newcommand{\n}{$\not$}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end{enumerate}}
+\newcommand{\claim}{\underline{claim:}}
+\newcommand{\prf}{\underline{Prf:}}
+\newcommand{\contradiction}{\textbf{contradiction:}}
+\begin{document}
+  \section{info}
+	Prof: Nicole Immorlica\\
+	3 Quizzes: Oct 11, Nov 3, Dec 1\\
+	Psets: assigned weekly, due on week w/o quiz, should take 6-8 hours\\
+	Textbook is recommended, NOT required\\
+	Assigned reading from MIT Open Courseware\\
+	Weekly mini-quizzes\\
+	Grading:
+	\begin{itemize}
+	  \item 60\% quizzes (20\% each)
+	  \item 40\% psets (5\% each)
+      \item 7\% chellenge problems (optional extra credit)
+      \item 8\% mini quizzes (1\% each)
+	\end{itemize}
+	Grades:
+	\begin{itemize}
+	  \item $\ge$ 94\% A
+	  \item $\ge$ 88\% A-
+	  \item ...
+	  \item $\ge$ 64\% C-
+	\end{itemize}
+	Exams curved so avg = 75\%\\
+	Website http://users.eecs.northwestern.edu/~nickle/310/2011/\\
+  \section{9.20.11}
+    \subsection{Graph Coloring}
+      \begin{enumerate}
+        \item Color a map - color map so that no two adjacent areas are the same color
+        \item Schedule exams - no exam conflicts with minimum number of hours
+      \end{enumerate}
+      Abstraction: use graphs\\
+      \begin{itemize}
+        \item make all items points on graph
+        \item map example: states A B C D, connect states that touch (i.e. conflict)
+        \item exam example: classes A B C D, connect exams that are at same time (conflict)
+        \item A: red, B: yellow, D: blue \ra C: yellow (does not conflict with B) 
+      \end{itemize}
+    \subsection{Tiling}
+      E.g. 4x4 tile grid with UR and LL tile missing. tiles are 1x2, can we cover the area?\\
+      \begin{itemize}
+        \item sanity check: even number of tiles?
+          \subitem yes, 14
+        \item start with smaller analogy
+          \subitem can we cover 2x2?
+          \subitem no, tiles are too big
+          \subitem chessboard analogy: alternating pattern \ra more white squares than black
+          \subitem \ra cannot be done
+      \end{itemize}
+      E.g. game of chomp. Alice and Bob eat mxn chocolate bar. \\
+      \textbf{important method: reduction to simpler case}
+    \subsection{logic}
+      \subsubsection{Proposition}
+        statement with truth value
+      \subsubsection{Operators}
+        not, or, and, xor, implies ( \ra ), iff\\
+        ~q \ra ~p $\equiv$ p\ra q
+      \subsubsection{Predicate}
+        proposition who's truth value depends on variable\\
+        E.g. P(n) = n is divisible by 3
+      \subsubsection{Quantifiers}
+        \te there exists\\
+        \fa for all\\
+        \fa integers n \te integer m: P(n,m), and other combinations...\\
+        \ra order of quanitifiers \textbf{matters}
+      \subsubsection{negating quantifiers}
+        negate 'it is not the case that all integers are even'
+        \begin{itemize}
+          \item Even(n) = n is even
+          \item chunk statement into logic symbols
+            \subsubitem \fa integers n: Even(n)
+            \subsubitem \n (\fa integers n: Even(n)) = \te an integer n: \n Even(n)
+        \end{itemize}
+        similarily, \n (\te ineger n: P(n)) \ra \fa integer n: \n P(n)\\
+      \subsubsection{Negating Mixtures}
+        \n (\fa integer n: \te integer m: P(n,m)) \ra \te integer n: \n (\te integer m: P(n,m)) \ra \te integeter n: \fa integer m: \n P(n,m)\\
+        E.g. \textbf{Goldbach's Conjecture} Every even integer $>$ 2 can be written as a sum of 2 primes\\
+        \begin{itemize}
+          \item let Even be the set of even primes $>$ 2
+          \item \fa n in Even, \te p in Primes, \te q in Primes: n = p+q
+        \ei
+  \section{9.22.11}
+    Cover some stuff we talked about yesterday, quantifiers blablabla\\
+    % some guy is being a dumbass...
+    \subsection{Proofs}
+      \subsubsection{Proof guideline I: Direct Proof}
+        to prove p \ra q\\
+        \begin{itemize}
+          \item assume p is true
+          \item conclude that q is true via logical deductions
+        \end{itemize}
+      \subsubsection{Proof guideline II: Proof by contrapositive}
+        to prove p \ra q
+        \begin{itemize}
+          \item prove that \n q \ra \n p
+        \end{itemize}
+      \subsubsection{Proof guideline III: Proof by contradiction}
+        to prove p
+        \begin{itemize}
+          \item assume \n p
+          \item derive a contradiction with assumption
+        \end{itemize}
+      \subsubsection{Proof guideline IV: Proof by cases}
+        to prove p
+        \begin{itemize}
+          \item break p into cases
+          \item prove each case individually
+        \end{itemize}
+    \subsection{Examples of proofs}
+      facts about integers:
+      \begin{itemize}
+        \item n is even $\equiv$ n=2k
+        \item n is odd $\equiv$ n = 2k + 1
+        \item d divides n (d|n) $\equiv$ n=ld
+        \item p is prime $\equiv$ the only divisors 1 and p
+      \end{itemize}
+      \subsubsection{Ex. 1 (direct proof)}
+        \underline{claim:} if x is odd, then x + 1 is even\\
+        \underline{Prf:} by direct proof
+        \begin{itemize}
+          \item p: x is odd
+          \item q: x + 1 is even
+          \item[]
+          \item assume x is odd
+          \item then, x = 2k + 1
+          \item then, x + 1 = 2k + 1 + 1
+          \item x + 1 = 2(k + 1)
+          \item \ra q is even
+        \end{itemize}
+      \subsubsection{Ex.2 (contrapositive proof)}
+        \underline{claim:} let d|n. If n is odd, then d is odd\\
+        \underline{Prf:} by contrapositive
+        \begin{itemize}
+          \item p: n is odd
+          \item q: d is odd
+          \item[]
+          \item we show that \n q \ra \n p
+            \subitem let d|n, then if d is even, n is even
+          \item assume d|n and d is even
+          \item then d = 2k and n=ld so n = l(2k) so n = 2(lk)
+          \item \ra n is even
+        \end{itemize}
+      \subsubsection{Ex. 3 (proof by contradiction)}
+        game of chomp\\
+        \underline{claim:} alice wins in chomp\\
+        \underline{Prf:} by contradiction
+        \begin{itemize}
+          \item assume alice loses
+          \item for any first move of alice, there is a move for bob such that bob
+          can force a win
+          \item consider move (m,n) for alice, and suppose bob moves (i,j)
+          \item by assumption bob has a sequence of responses for any moves of
+          alice such that he wins
+          \item but then alice could have chosen (i,j) as her first move and
+          copied bobs sequence of responses
+          \item \textbf{Contradiction:} by copying bob alice won
+          \item \ra alice wins
+        \end{itemize}
+      \subsubsection{Ex. 4 (proof by contradiction)}
+        \underline{claim:} there is no largest even integer\\
+        \underline{Prf:} by contradiction
+        \begin{itemize}
+          \item assume \te greatest even integer N
+          \item then N=2k
+          \item so then N+2 = 2k+2
+          \item so N+2 is even
+          \item \textbf{contradiction:} N+2>N
+        \end{itemize}
+      \subsubsection{Ex. 5 (proof by cases)}
+        \underline{claim:} \fa n, m, $\frac{n+m}{2} \le max(n,m)$\\
+        \underline{Prf:} by cases
+        \begin{enumerate}
+          \item n=m
+          \item n<m
+          \begin{itemize}
+            \item first rewrite n+m $\le$ 2max(n,m)
+            \item then n+m < m+m = 2m = 2max(n,m)
+          \end{itemize}
+          \item n>m
+        \end{enumerate}
+      \subsubsection{Ex. 6 (proof by contradiction)}
+        \underline{claim:} there are infinitely many primes\\
+        \underline{Prf:} by contradiction
+        \begin{itemize}
+          \item assume there are finitely many primes
+          \item call them $p_{1},p_2,...,p_{n}$
+          \item consider $q=p_{1}p_2...p_{n}+1$
+          \item then either q is prime in which case we're done, or \te prime
+          divisor p
+          \item so p = $p_{i}$ for some i
+          \item sp p|$p_{1}p_2...p_{n}$ and p|q, so p|(q-($p_{1}...p_{n}$))
+          \item so p|1
+        \end{itemize}
+      \subsubsection{Ex. 7}
+        \underline{claim:} $\sqrt{2}$ is irrational\\
+        (recall a number x is rational if \te integers p,q : x=$\frac{p}{q}$)\\
+        \underline{Prf:} by contradiction
+        \begin{itemize}
+          \item $\sqrt{2}$ is rational
+          \item then $\sqrt{2}= \frac{p}{q}$ s.t. they have no common divisor
+          \item $p^2=2q^2$, so $p^2$ is even
+          \item \textbf{Lemma:} if $p^2$ is even, then p is even
+          \item assume p is even, so p=2k
+          \item so $2q^2 = (2k)^2$, so $q^2$ is even
+          \item so q is even
+          \item \textbf{contradiction:} if p and q are even, they have a common
+          divisor
+        \end{itemize}
+      \subsubsection{Ex. 8}
+        \underline{claim:} if a number n's digits add up to a number divisible by 9,
+        then 9|n\\
+        \underline{Prf:} by direct proof
+        \begin{itemize}
+          \item assume the sum of digits is divisible by 9
+          \item n = 3547 = 7*1 + 4*10 + 5*100 + 3*1000
+          \item $n = nx_010^0 + x_110^1 + ... + x_n10^n$
+          \item so 9|($x_0 + ... + x_n$)
+          \item so n = ($xA_0 + ... + x_n$) + $9x_1 + 9*9x_2 + ... + 9*9..9*9x_n$
+          \item 9 divides each term, so 9|n!
+        \end{itemize}
+      \subsubsection{Ex. 9}
+        \claim \te irrational numbers x,y : $x^y$ is rational\\
+        \prf by cases
+        \bi
+          \item try $x=y=\sqrt{2}$
+          \item doesnt work
+          \item try $x=\sqrt{2}^{\sqrt{2}} , y=\sqrt{2}$
+          \item $x^y = 2$
+          \item MIND. MOTHERFUCKING. BLOWN
+        \ei
+\end{document}
