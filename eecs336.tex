@@ -196,4 +196,253 @@
       G = (V,E)\\
       V = {1,2,...,n} (nodes)\\
       E = {(a,b),(c,d),...,(y,z)} (edges)\\
+  \section{9.27.11}
+    reading: 4.1-4.2\\
+    \underline{last time}
+    \bi
+      \item computational tractability
+      \item big oh
+      \item graphs
+    \ei
+    \underline{today}
+    \bi
+      \item greedy algs
+      \item interval scheduling
+    \ei
+    \subsection{review}
+      \subsubsection{Ex. $T(n) = 5n^2 -n$}
+        \begin{tabular}{c | c | c | c}
+         & O() & $\Omega$ () & $\Theta$ ()\\
+         \hline
+         $n^3$ & yes & no & no\\
+         $n^2$ & yes & yes & yes\\
+         $n$ & no & yes & no
+         \end{tabular}\\
+        \subsubsection{graph traversal}
+          'visit each vertex in a graph'
+          \bi
+            \item BFS
+            \item DFS
+          \ei
+          (graph is a square, with 1 at upper left and numbered 1-4 clockwise)
+          \bi
+            \item BFS
+              \subitem 1 2 3 4 
+              \subitem 1 3 2 4
+            \item DFS
+              \subitem 1 2 4 3 
+              \subitem 1 3 4 2
+          \ei
+    \subsection{greedy alg}
+      \bi
+        \item build up solution in steps
+        \item each stop is 'myopically' optimal
+        \item hard part: is solution optimal?
+        \item[Q:] for what kind of problems is greedy optimal?
+      \ei
+    \subsection{scheduling}
+      \bi
+        \item many tasks competing for resources
+        \item temporal constraints
+          \subitem start and end times
+          \subitem deadlines
+          \subitem one item per resource at a time
+      \ei
+      \underline{goal} find most efficient schedule
+      \bi
+        \item most tasks completed
+        \item best tasks scheduled
+      \ei
+      ex: cpu scheduling
+      \subsubsection{interval scheduling}
+        'sharing a single resource over time'\\
+        \underline{input}
+        \bi
+          \item n jobs
+          \item 1 machine
+          \item request: job i needs machine between time s(i) and t(i)
+        \ei
+        \underline{goal}
+        \bi
+          \item[] schedule most number of jobs
+        \ei
+        
+        \underline{examples of greediness}
+        \bi
+          \item start time
+            \subitem maybe only schedule one job that needs all the time...
+          \item fewest incompatibilities
+            \subitem only one overlap is relevant
+          \item smallest size
+            \subitem counter: only one small job, two medium jobs that can be scheduled
+          \item finish time
+            \subitem[Def:] jobs i and j are incompatible if $[s(i),f(i)]\cap[s(j),f(j)]\neq \emptyset]$
+            \subitem[] otherwise compatible
+            \subitem[] set of jobs are compatible if no pairs are incompatible
+        \ei
+      \subsubsection{alg: greedy by minimum finish time}
+        \be
+          \item sort by f(j)
+          \item $s \leftarrow \emptyset$
+          \item for each j (in sorted order)
+            \bi
+              \item[] if j is compatible with s
+                \subitem $s \leftarrow s \cup {j}$
+              \item[] else discard j
+            \ei
+          \item output s
+        \ee
+      \subsubsection{analysis}
+        \be
+          \item correctness
+          \bi
+            \item 'schedule is compatible and optimal'
+            \item compatible
+              \subitem[lemma 1:] schedule of alg is compatible
+              \subitem[proof:] induction
+            \item[thm:] greedy is optimal
+            \item[proof:] greedy stays ahead
+              \subitem $\{ i_1,...,i_k\}$ = schedule of greedy
+              \subitem $\{ j_1,...,j_m\}$ = an optimal schedule
+              \subitem[goal:] show k=m
+              \subitem[subclaim:] for $r\leq k, f(i_r) \leq f(j_r)$
+              \subitem[proof:] by induction
+                \subsubitem base case: r = 1, by definition of greedy, $i_r \leq j_er$ as it is the first job to finish
+                \subsubitem inductive hypothesis: $f(i_r) \leq f(j_r)$
+                \subsubitem I = \{ jobs starting after $f(i_r)$\}
+                \subsubitem J = \{ jobs starting after $f(j_r)$\}
+                \subsubitem IH \ra I $\geq$ J
+                \subsubitem alg \ra $f(i_{r+1}) = min_{j \in I} f(j), j$
+                \subsubitem $min_{j \in I} f(j) \leq min_{j \in J} f(j) \leq f(j_{r+1})$
+                \subsubitem subclaim is true!
+            \item[proof:] by contradiction
+              \subitem assume opt has one more job than greedy ($j_{k+1} but i_k$)
+              \subitem subclaim \ra greedy's k$^{th}$ job ends before opt's k$^{th}$ job
+              \subitem $j_{k+1}$ is in opt and therefore compatible, and starts after $j_k$
+              \subitem[\ra ] $f(j_k) \leq s(j_{k+1})$
+              \subitem[\ra ] $f(i_k) \leq s(j_{k+1})$
+              \subitem[\ra ] $f(j_{k+1})$ is compatible with $i_k$
+              \subitem[\ra ] alg does not terminate at k
+            \item[\ra ] greedy has same number of jobs as optimal, and is ergo optimal itself
+          \ei
+          \item runtime
+          \bi
+            \item T(n) $\leq n\log n + \sum_{j=1}^n j$ (j = cost to check compatibility with previous jobs)
+            \item O(n) = n$^2$
+            \item[idea:] job is incompatible iff it is compatible with last scheduled job
+            \item[\ra ] O($n\log n$)
+          \ei
+        \ee
+  \section{9.29.11}
+    reading: 4.5-4.6, mit notes on matroids
+    \subsection{greedy by value / Kruskal's alg}
+      'to pick a feasible set with max total value'
+      \subsubsection{ex 1: weighted interval scheduling}
+        \bi
+          \item jobs have value $v_i$
+          \item goal: max $\sum_{i \in S} v_i$, for feasible S
+          \item[Q:] greedy by finish time?
+          \item[A:] wont be best
+        \ei
+      \subsubsection{alg: greedy by value}
+        \be
+          \item sort by $v_i$
+          \item $S \leftarrow \emptyset$
+          \item foreach j (in sorted order)
+            \subitem if $\{e\}\cup S$ is feasible
+            \subitem $S \leftarrow S\cup \{e\}$
+          \item output S
+        \ei
+        Q: is it good?\\
+        A: no!\\
+        counterexample: 2 short with 2 , one big with 3, chooses 3 instead of 4
+      \subsubsection{ex 2: minimum spanning tree}
+        'maintains connectivity in a network e.g. for broadcast'\\
+        \underline{input:} graph G=(V,E), costs C(e) on e$\in$E\\
+        \underline{output:} spanning tree with minimum total cost\\
+        \textbf{Def} spanning tree is a graph (V,T) that is
+        \be
+          \item acyclic
+          \item connected
+        \ee
+        \note greedy by value = kruskals alg (same greedy by val as before, add
+        if adding does not create cycle)
+      \subsubsection{runtime}
+        \bi
+          \item in terms of n (vertices) and m (edges)
+          \item sorting is O(m$\log$m)=O(m$\log$n)
+          \item checking for cycles = O((m+n)m) = O(m$^2$)
+          \item[] if you use union-find data structure \ra\ m union or find
+          operations has runtime $m\log^*n$, which for any `practical' value of
+          n is approx 5
+          \item[\ra ] checking for cycles is O($m\log^*n$)
+          \item whole alg is O(m$\log$n)
+        \ei
+      \subsubsection{correctness}
+        'output is a tree and its cost is minimum'\\
+        \underline{lemma 1:} greedy outputs a forest\\
+        \underline{proof:} induction (start acyclic, never add a cycle)\\
+        \underline{lemma 2:} if g is connected, then greedy outputs a tree\\
+        \underline{proof:} by contradiction
+        \bi
+          \item suppose not, output T is not connected
+          \item[\ra ] \te\ cut A,B s.t. no edges in T cross
+          \item[\ra ] $T\cup \{e\}$ for any e$\in$E that crosses cut is acyclic
+          \item G is connected, \ra\ \te\ e crossing cut
+          \item so our alg must have considered e but not added it
+          \item at that time kruskal has T'$\subset$T, and e is acyclic with T,
+          so also acyclic with T', so kruskal would have added it
+          \item $\Rightarrow\Leftarrow$
+        \ei
+      \subsubsection{structural facts about spanning trees}
+        \bi
+          \item def: G' = (V,E') is a subgraph of G = (V,E) if E'$\subset$E
+          \item def: a forest is an acyclic undirected graph
+          \item def: A,B$\subset$v is a cut if A$\cap$B = $\emptyset$, A$\cup$B
+          = V, an edge e = (U,V) crosses the cut if U$\in$A and V$\in$B (or
+          vice-versa)
+          \item a tree on n vertices has n-1 edges
+          \item subgraphs of acyclic graphs are acyclic
+        \ei
+        \underline{lemma 1:} if G=(V,F) is a forest with m edges, then it has
+        n-m connected components\\
+        \underline{proof:} induction, follows from tree having n-1 edges\\
+        \underline{lemma 2:} augmentation - if I,J$\subset$E, and (V,I) and
+        (V,J) are forests, then $|I|<|J|$, so I has more connected components,
+        then \te\ e$\in$J\backslash I s.t. (V,I$\cup\{e\}$) is a forest\\
+        \underline{proof}
+        \bi
+          \item I has $\geq$ connected components than J
+          \item must be a connected component of J with vertices from two cc's
+          of I (pidgeonhole)
+          \item this cc is connected, so there must be edge in J that crosses
+          cut
+          \item (V,I$\cup$\{e\}) is acyclic
+        \ei
+      \subsubsection{kruskal is optimal}
+        \underline{proof:} by contradiction / greedy stays ahead
+        \bi
+          \item I = elts of greedy (1 \ra\ n-1)
+          \item J = elts of opt (1 \ra\ n-1)
+          \item assume c(I) $>$ c(J)
+          \item some first index r s.t. c($j_r$) < c($i_r$)
+          \item let I$_{r-1}$ = $\{i_1,...,i_{r-1}\}$
+          \item let J$_r$ = $\{j_1,...,j_r\}$
+          \item $|I_{r-1}| < |J_r|$ and augmentation lemma
+          \item[\ra ] \te\ j$\in J_r$ s.t. $I_{r-1}\cup\{k\}$ is acyclic
+          \item suppose considered after $i_k$ for k$\leq$r
+          \item $I_k\subset I_{r-1}$
+          \item \ra\ $I_k\cup\{j\}\subset I_{r-1}\cup\{j\}$, which is acyclic
+          \item $I_k\cup\{j\}$ is acyclic
+          \item $\Rightarrow\Leftarrow$
+        \ei
+      \subsubsection{what properties are necessary for proof to work?}
+        \bi
+          \item need I,J to have same number of elements
+          \item need augmentation lemma
+          \item subsets of acyclic sets are acyclic (downward closure)
+        \ei
+        \ra\ greedy by value works when all of these are true!\\
+        matroids are set systems where those things are true (and by correlation
+        n-node tree having n-1 edges)
 \end{document}

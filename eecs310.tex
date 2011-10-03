@@ -1,11 +1,13 @@
 \documentclass[a4paper]{article}
 \usepackage{fullpage}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{ulem}
 \newcommand{\ra}{$\rightarrow$}
 \newcommand{\fa}{$\forall$}
 \newcommand{\te}{$\exists$}
-\newcommand{\n}{$\not$}
+\newcommand{\n}{$\neg$}
 \newcommand{\bi}{\begin{itemize}}
 \newcommand{\ei}{\end{itemize}}
 \newcommand{\be}{\begin{enumerate}}
@@ -13,6 +15,7 @@
 \newcommand{\claim}{\underline{claim:}}
 \newcommand{\prf}{\underline{Prf:}}
 \newcommand{\contradiction}{\textbf{contradiction:}}
+\newcommand{\ul}{\underline}
 \begin{document}
   \section{info}
 	Prof: Nicole Immorlica\\
@@ -25,7 +28,7 @@
 	\begin{itemize}
 	  \item 60\% quizzes (20\% each)
 	  \item 40\% psets (5\% each)
-      \item 7\% chellenge problems (optional extra credit)
+      \item 7\% challenge problems (optional extra credit)
       \item 8\% mini quizzes (1\% each)
 	\end{itemize}
 	Grades:
@@ -36,7 +39,7 @@
 	  \item $\ge$ 64\% C-
 	\end{itemize}
 	Exams curved so avg = 75\%\\
-	Website http://users.eecs.northwestern.edu/~nickle/310/2011/\\
+	Website http://users.eecs.northwestern.edu/$~$nickle/310/2011/\\
   \section{9.20.11}
     \subsection{Graph Coloring}
       \begin{enumerate}
@@ -125,7 +128,7 @@
       \begin{itemize}
         \item n is even $\equiv$ n=2k
         \item n is odd $\equiv$ n = 2k + 1
-        \item d divides n (d|n) $\equiv$ n=ld
+        \item d divides n (d$|$n) $\equiv$ n=ld
         \item p is prime $\equiv$ the only divisors 1 and p
       \end{itemize}
       \subsubsection{Ex. 1 (direct proof)}
@@ -142,15 +145,15 @@
           \item \ra q is even
         \end{itemize}
       \subsubsection{Ex.2 (contrapositive proof)}
-        \underline{claim:} let d|n. If n is odd, then d is odd\\
+        \underline{claim:} let d$|$n. If n is odd, then d is odd\\
         \underline{Prf:} by contrapositive
         \begin{itemize}
           \item p: n is odd
           \item q: d is odd
           \item[]
           \item we show that \n q \ra \n p
-            \subitem let d|n, then if d is even, n is even
-          \item assume d|n and d is even
+            \subitem let d$|$n, then if d is even, n is even
+          \item assume d$|$n and d is even
           \item then d = 2k and n=ld so n = l(2k) so n = 2(lk)
           \item \ra n is even
         \end{itemize}
@@ -178,19 +181,19 @@
           \item then N=2k
           \item so then N+2 = 2k+2
           \item so N+2 is even
-          \item \textbf{contradiction:} N+2>N
+          \item \textbf{contradiction:} N+2$>$N
         \end{itemize}
       \subsubsection{Ex. 5 (proof by cases)}
-        \underline{claim:} \fa n, m, $\frac{n+m}{2} \le max(n,m)$\\
+        \underline{claim:} \fa n, m, $\frac{n+m}{2} \leq max(n,m)$\\
         \underline{Prf:} by cases
         \begin{enumerate}
           \item n=m
-          \item n<m
+          \item n$<$m
           \begin{itemize}
-            \item first rewrite n+m $\le$ 2max(n,m)
-            \item then n+m < m+m = 2m = 2max(n,m)
+            \item first rewrite n+m $\leq$ 2max(n,m)
+            \item then n+m $<$ m+m = 2m = 2max(n,m)
           \end{itemize}
-          \item n>m
+          \item n$>$m
         \end{enumerate}
       \subsubsection{Ex. 6 (proof by contradiction)}
         \underline{claim:} there are infinitely many primes\\
@@ -202,8 +205,8 @@
           \item then either q is prime in which case we're done, or \te prime
           divisor p
           \item so p = $p_{i}$ for some i
-          \item sp p|$p_{1}p_2...p_{n}$ and p|q, so p|(q-($p_{1}...p_{n}$))
-          \item so p|1
+          \item sp $p|p_{1}p_2...p_{n}$ and p$|$q, so p$|$(q-($p_{1}...p_{n}$))
+          \item so p$|$1
         \end{itemize}
       \subsubsection{Ex. 7}
         \underline{claim:} $\sqrt{2}$ is irrational\\
@@ -222,15 +225,15 @@
         \end{itemize}
       \subsubsection{Ex. 8}
         \underline{claim:} if a number n's digits add up to a number divisible by 9,
-        then 9|n\\
+        then 9$|$n\\
         \underline{Prf:} by direct proof
         \begin{itemize}
           \item assume the sum of digits is divisible by 9
           \item n = 3547 = 7*1 + 4*10 + 5*100 + 3*1000
           \item $n = nx_010^0 + x_110^1 + ... + x_n10^n$
-          \item so 9|($x_0 + ... + x_n$)
+          \item so 9$|$($x_0 + ... + x_n$)
           \item so n = ($xA_0 + ... + x_n$) + $9x_1 + 9*9x_2 + ... + 9*9..9*9x_n$
-          \item 9 divides each term, so 9|n!
+          \item 9 divides each term, so 9$|$n!
         \end{itemize}
       \subsubsection{Ex. 9}
         \claim \te irrational numbers x,y : $x^y$ is rational\\
@@ -242,4 +245,177 @@
           \item $x^y = 2$
           \item MIND. MOTHERFUCKING. BLOWN
         \ei
+  \section{9.27.11}
+    \subsection{Proof Review}
+      \be
+        \item direct proof
+          \bi
+            \item to prove p \ra q
+            \item assume p and
+            \item derive q
+          \ei
+        \item proof by contrapositive
+          \bi
+            \item to prove p \ra q
+            \item assume \n q and 
+            \item derive \n p
+          \ei
+        \item proof by contradiction
+          \bi
+            \item to prove p assume \n p 
+            \item and derive a contradiction
+          \ei
+        \item proof by cases
+          \bi
+            \item break into substatements
+            \item $p_1,p_1,...,p_n$
+            \item and prove each separately
+          \ei
+      \ee
+    \subsection{sets}
+      \bi
+        \item collection of elements
+        \item letters \{ a,b,...,z\}
+        \item natural numbers $\mathbb{N}$ = \{ 0,1,...\}
+        \item integers $\mathbb{Z}$ = \{ ...,-1,0,1,...\}
+        \item rationals $\mathbb{Q} = \{ \frac{p}{q}. p,q \in \mathbb{Z}\}$
+      \ei
+      Set builder notation\\
+      Evens = $\{ n|\exists k<\mathbb{Z} : 2k=n\}$
+      \subsubsection{operations}
+        \bi
+          \item union: $A\cup B = \{ x:x\in A$ or $x\in B\}$
+          \item intersection $A\cap B = \{ x:x\in A$ and $x\in B\}$
+          \item complement $\bar{A} = \{x\in U:x\notin A\}$
+          \item element of $\in$
+          \item set difference $A-B = \{x\in U:x\in A$ and $x\notin B\}$
+        \ei
+    \subsection{proof by least counterexample}
+      \subsubsection{Ex:}
+        \underline{claim:} for any naturals nm the fraction $\frac{m}{n}$ can be written in lowest common form\\
+        \underline{Prf:} by least counterexample
+        \bi
+          \item let $c = \{ m|\exists n : \frac{m}{n}$ has no lowest common form$\}$
+          \item assume for contradiction that $c\neq \emptyset$
+          \item by well-ordering \te smallest number $m_0\in$C
+          \item let $n_0$ be s.t. $\frac{m}{n}$ has no lowest common form
+          \item then \te p s.t. p$|m_0$ and p$|n_0$
+          \item then $\frac{m_0}{n_0} = \frac{\frac{m_0}{p}}{\frac{n_0}{p}}$, so $\frac{m_0}{n_0}\notin C$ since $\frac{m_0}{p}$ and $n_0$ is smallest element of C
+          \item thus has lowesr common form and equals $\frac{m_0}{n_0}$ contradicting that has no lowest form
+        \ei
+      \subsubsection{template}
+        to prove P(n)
+        \bi
+          \item define set of counterexamples C
+          \item use proof by contradiction to assume C$\neq\emptyset$
+          \item use well-ordering to get smallest element n$\in$C
+          \item reach contradiction by finding smaller $n\in \mathbb{N} s.t. n\in C$
+          \item conclude $C=\emptyset$
+        \ei
+    \subsection{induction}
+      notation
+      \bi
+        \item sum: for numbers $x_1,x_2,...,x_n$ sum is $\sum_i^n x_i$
+        \item product: $\prod_i^n x_i$
+      \ei
+      \subsubsection{example}
+        \underline{claim:} \fa n $\geq 1, \sum_{i=1}^n = \frac{n(n+1)}{2}$\\
+        \underline{Prf:} by induction
+          \bi
+            \item for n=1, $\sum$ = 1 = $\frac{1(1+1)}{2}$
+            \item for n=2, $\sum$ = 1+2 = $\frac{1(2)}{2} + 2 = \frac{1(2) + 4}{2}$
+            \item for n+1, lets assume $\sum_{i=1}^n i = \frac{n(n+1)}{2}$
+            \item $\sum_{i=1}^{n+1}(i) = \sum_{i=1}^n(i) + (n+1) = \frac{n(n+1) + 2(n+1)}{2} = \frac{(n+1)(n+2)}{2}$
+          \ei
+      \subsubsection{template}
+        \bi
+          \item by induction on n
+          \item base case: prove P(1)
+          \item state inductive hypothesis P(n)
+          \item prove P(n) \ra P(n+1) for all n $\geq$ 1
+          \item conclude \fa n P(n)
+        \ei
+      \subsubsection{ex. 2}
+        \underline{claim:} sum of first n odd integers is a perfect square\\
+        \underline{prf:} by induction
+        \bi
+          \item let P(n) $\equiv \sum_i^n (2i-1) = k^2$ for some k
+          \item P(1) = 1, which is perfect square
+          \item $\sum_{i=1}^{n+1} (2i-1) = \sum_{i=1}^n (2i-1) + (2(n+1)-1) = k^2 + 2n + 1$
+          \item hmm... stuck. lets claim that $\sum = n^2$
+          \item to be continued!
+        \ei
+  \section{9.29.11}          
+    \subsection{proof continued!}
+      \bi
+        \item we have shown P(1) and assumed P(n), and made stronger for n, not
+        k
+        \item $\sum_{i=1}^{n+1} (2i-1) = \sum_{i=1}^n (2i-1) + (2(n+1)-1) = n^2 + 2n + 1$
+        \item $ = (n+1)^2$
+      \ei
+    \subsection{examples}
+      \claim all horses have the same color\\
+      \prf by induction
+      \bi
+        \item let P(n) = all sets of n horses have the same color
+        \item base case: P(1) is true, only one horse
+        \item inductive hypothesis: all sets of horses have the same color
+        \item inductive step: let $\{ s_1,s_2,...,s_ni,s_{n+1}\}$ be set of n+1 horses
+        \item by i.h. color($s_1$) = ... = color($s_n$)
+        \item by i.h. color($s_2$) = ... = color($s_{n+1}$)
+        \item $\therefore$ color($s_1$) = ... = color($s_n$) = color($s_{n+1}$)
+        \item
+        \item bad inductive reasoning, P(n) does not hold
+      \ei
+    \subsection{strong induction}
+      \subsubsection{example}
+        \claim every integer n$>$1 is a product of primes\\
+        \prf by least counterexample
+        \bi
+          \item C = $\{ n \in \mathbb{N}$ s.t. n can not be written as product of
+          primes\}
+          \item $C \neq \emptyset$
+          \item let n' be smallest elt of C
+          \item note that n' cannot be prime
+          \item[\ra ] n' = ab
+          \item since a$<$n', b$<$n', a$\notin$C, b$\notin$C
+          \item so \te\ primes $p_1^a,...,p_i^a,p_1^b,...,p__j^b$ s.t.
+          a=$p_1^a...p_i^a$ and b = $p_1^b...p_i^b$
+          \item thus n' = ab = $p_1^a...p_i^ap_1^b...p_i^b$
+        \ei
+        \prf by induction
+        \bi
+          \item base case P(2) = 2 = prime
+          \item i.h. P(m) for all m$\leq$n
+          \item i.s. if P(n+1) is prime, then im done, otherwise P(n+1)=ab where
+          a$\leq$n, b$\leq$n, P(a) and P(b) are true
+          \item so prime factorization of a,b give prime factorization of (n+1)
+        \ei
+      \subsubsection{template}
+        \bi
+          \item prove base case P(1)
+          \item assume P(m) for all m$\leq$n
+          \item derive P(n+1)
+        \ei
+      \subsubsection{example}
+        \claim every amount of postage stamps of 12 cents or more can be formed
+        using just 4 and 5 cent stamps\\
+        \prf by strong induction
+        \bi
+          \item P(n) = n cent stamps can be formed with 4,5 cent stamps
+          \item base cases
+            \subitem P(12) = 3*4 = 12
+            \subitem P(13) = 1*5 + 2*4
+            \subitem P(14) = 2*5 + 1*4
+            \subitem P(15) = 3*15
+          \item i.h. P(m) \fa m $12\leq m \leq n$
+          \item i.s. prove P(n+1)
+          \item n+1 = 4+(n-3)
+          \item use i.h. to make (n-3) cents of postage
+          \item add a 4 cent stamp
+        \ei
+    \subsection{invariants}
+      \subsubsection{example}
+        we have a pairwise labeled grid O = (0,0). there is a rare flower at
+        (0,1)
 \end{document}
